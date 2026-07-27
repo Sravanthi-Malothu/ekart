@@ -5,6 +5,7 @@ import { fileURLToPath as _fileURLToPath } from 'url'
 import express from "express";
 import connectDB from "./database/db.js";
 import userRoute from "./routes/userRoute.js";
+import productRoute from "./routes/productRoute.js";
 
 const __dirname = path.dirname(_fileURLToPath(import.meta.url))
 dotenv.config({ path: path.join(__dirname, '.env') })
@@ -19,6 +20,8 @@ app.use(cors({
 }))
 
 app.use('/api/v1/user',userRoute)
+app.use('/api/v1/products',productRoute)
+app.use('/api/v1/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);

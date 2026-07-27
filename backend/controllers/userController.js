@@ -1,8 +1,44 @@
 import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { verifyEmail } from "../emailVerify/verifyEmail.js";
 import { sendOtpEmail } from "../emailVerify/sendOTPMail.js";
+import cloudinary from "../config/cloudinary.js";
+
+export const uploadProfilePic = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "No image provided" });
+        }
+        const { id } = req.user; // from isAuthenticated middleware
+
+        // Upload image to cloudinary via stream
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: "ekart_profiles" },
+            async (error, result) => {
+                if (error) {
+                    return res.status(500).json({ success: false, message: "Cloudinary upload failed", error });
+                }
+                
+                // Update user in DB
+                const user = await User.findByIdAndUpdate(
+                    id,
+                    { profilePic: result.secure_url, profilePicPublicId: result.public_id },
+                    { new: true }
+                ).select("-password -otp -otpExpiry -token");
+                
+                return res.status(200).json({
+                    success: true,
+                    message: "Profile picture uploaded successfully",
+                    user
+                });
+            }
+        );
+        
+        uploadStream.end(req.file.buffer);
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
 
 export const register = async (req, res) => {
     try {
@@ -26,11 +62,11 @@ export const register = async (req, res) => {
             firstName,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            isVerified: true
         })
         await newUser.save();
         const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, { expiresIn: "10m" })
-        verifyEmail(token, email)
         newUser.token = token
         await newUser.save();
         return res.status(201).json({
@@ -159,19 +195,22 @@ export const login = async (req, res) => {
                 message: "Invalid password"
             })
         }
-        if (!user.isVerified) {
-            return res.status(401).json({
-                success: false,
-                message: "Email not verified"
-            })
-        }
         const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "1h" })
         user.token = token;
         await user.save();
+        const userResponse = {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            profilePic: user.profilePic || "",
+            role: user.role,
+        };
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            token: token
+            token: token,
+            user: userResponse
         })
     } catch (error) {
         return res.status(500).json({
@@ -273,7 +312,7 @@ export const verifyOtp = async (req, res) => {
                 message: "User not found"
             })
         }
-        if (user.otp !== otp) {
+        if (String(user.otp) !== String(otp)) {
             return res.status(400).json({
                 success: false,
 
@@ -290,9 +329,13 @@ export const verifyOtp = async (req, res) => {
         user.otp = null;
         user.otpExpiry = null;
         await user.save();
+        
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "15m" });
+        
         return res.status(200).json({
             success: true,
-            message: "OTP verified successfully"
+            message: "OTP verified successfully",
+            token
         })
     }
     catch (error) {
@@ -382,3 +425,46 @@ export const getUserById = async (req, res) => {
         })
     }
 }
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password -otp -otpExpiry -token");
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { firstName, lastName, email } = req.body;
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+        await user.save();
+        const updatedUser = await User.findById(user._id).select("-password -otp -otpExpiry -token");
+        res.status(200).json({ success: true, message: "Profile updated", user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const deleteAccount = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        await User.findByIdAndDelete(req.user.id);
+        res.status(200).json({ success: true, message: "Account deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

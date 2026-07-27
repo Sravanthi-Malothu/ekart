@@ -4,8 +4,10 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
-import Verify from './pages/Verify'
-import VerifyEmail from './pages/VerifyEmail'
+import NotFound from './pages/NotFound'
+import Products from './pages/Products'
+import Cart from './pages/Cart'
+import Profile from './pages/Profile'
 import { Toaster } from '@/components/ui/sonner'
 import Footer from './components/Footer';
 
@@ -13,11 +15,20 @@ import Footer from './components/Footer';
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<><Navbar/><Home/></>
+    element:<><Navbar/><Home/></>,
+    errorElement: <NotFound />
   },
 {
   path:'/products',
-  element:<><Navbar/><Home/><Footer/></>
+  element:<Products/>
+},
+{
+  path:'/cart',
+  element:<Cart/>
+},
+{
+  path:'/profile',
+  element:<Profile/>
 },
 {
   path:'/signup',
@@ -28,12 +39,12 @@ const router = createBrowserRouter([
   element:<Login/>
 },
 {
-  path:'/verify',
-  element:<Verify/>
+  path:'/signup',
+  element:<Signup/>
 },
 {
-  path:'/verify/:token',
-  element:<VerifyEmail/>
+  path:'*',
+  element:<NotFound/>
 }
 ])
 

@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/redux/userSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +26,7 @@ const Login = () => {
     password: ""
   });
   const navigate = useNavigate();
-  const dispatch=useDispatch(res.data.user)
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +40,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/user/login', formData, {
+      const res = await axios.post('/api/v1/user/login', formData, {
         headers: {
           "Content-Type": "application/json"
         }
@@ -47,8 +48,8 @@ const Login = () => {
       if (res.data.success) {
         localStorage.setItem('accessToken', res.data.token);
         toast.success("Login successful");
+        dispatch(setUser(res.data.user));
         navigate('/');
-        dispatch(setUser)
       }
     } catch (error) {
       console.log(error);

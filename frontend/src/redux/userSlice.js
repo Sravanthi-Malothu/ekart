@@ -1,14 +1,13 @@
 
-import{createSlice} from '@reduxjs/toolkit'
-const {createSlice}=require("@reduxjs/toolkit")
+import { createSlice } from '@reduxjs/toolkit'
 
-const userSlice({
+const userSlice = createSlice({
     name:"User",
     initialState:{
         user:null
     },
     reducers:{
-        setUser:{state,action}=>{
+        setUser:(state,action)=>{
             state.user=action.payload
         }
     }

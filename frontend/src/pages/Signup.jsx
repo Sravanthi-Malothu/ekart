@@ -41,17 +41,23 @@ const Signup = () => {
         console.log(formData)
         try{
             setLoading(true)
-            const res=await axios.post('http://localhost:8000/api/v1/user/register',formData,{
+            const res=await axios.post('/api/v1/user/register',formData,{
                 headers:{
                     "Content-Type":"application/json"
                 }
             })
-            if(res.data.success)
-              navigate('/verify')
+            if(res.data.success){
+                toast.success("Account created successfully! You can login now.");
+                navigate('/login')
+            }
         }catch(error){
             console.log(error)
             const message = error.response?.data?.message || "Something went wrong";
-            toast.error(message)
+            if (String(message).toLowerCase().includes('already exists')) {
+                toast.error('An account with this email already exists. Please login instead.')
+            } else {
+                toast.error(message)
+            }
         }
         finally{
             setLoading(false)
