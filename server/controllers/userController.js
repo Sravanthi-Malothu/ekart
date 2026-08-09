@@ -2,6 +2,7 @@ import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sendOtpEmail } from "../emailVerify/sendOTPMail.js";
+import { verifyEmail } from "../emailVerify/verifyEmail.js";
 import cloudinary from "../config/cloudinary.js";
 
 export const uploadProfilePic = async (req, res) => {
