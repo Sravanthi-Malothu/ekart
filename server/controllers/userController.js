@@ -234,7 +234,7 @@ export const logout = async (req, res) => {
         try {
             decoded = jwt.verify(token, process.env.SECRET_KEY)
         }
-        catch (error) {
+        catch {
 
             return res.status(401).json({
                 success: false,
@@ -313,7 +313,7 @@ export const verifyOtp = async (req, res) => {
                 message: "User not found"
             })
         }
-        if (String(user.otp) !== String(otp)) {
+        if (!user.otp || String(user.otp) !== String(otp)) {
             return res.status(400).json({
                 success: false,
 

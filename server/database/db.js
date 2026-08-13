@@ -9,12 +9,18 @@ const connectDB = async () => {
     }
 
     try {
-        const baseUri = process.env.MONGO_URI ? process.env.MONGO_URI.replace(/\/+$/, "") : "";
-        await mongoose.connect(`${baseUri}/Ecom`);
+        const mongoUri = process.env.MONGO_URI;
+        if (!mongoUri) {
+            throw new Error("MONGO_URI environment variable is missing");
+        }
+        const baseUri = mongoUri.replace(/\/+$/, "");
+        const uriToConnect = baseUri.includes('/Ecom') ? baseUri : `${baseUri}/Ecom`;
+        await mongoose.connect(uriToConnect);
         isConnected = true;
         console.log("mongoDB connected successfully");
     } catch (error) {
-        console.log("mongoDB connection failed:", error);
+        console.error("mongoDB connection failed:", error);
+        throw error;
     }
 }
 

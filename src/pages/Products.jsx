@@ -38,7 +38,7 @@ const Products = () => {
       } catch (error) {
         console.error('Error fetching products:', error);
         setLoading(false);
-        setError('Failed to connect to backend. Make sure the server is running on port 8000.');
+        setError('Failed to connect to backend. Make sure the server is running on port 3000.');
       }
     };
     fetchProducts();
@@ -73,9 +73,9 @@ const Products = () => {
       const { data } = await axios.get(`${API_URL}/products`);
       setProducts(data);
       toast.success('Products seeded!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to seed products');
-      setError('Failed to connect to backend. Make sure the server is running on port 8000.');
+      setError('Failed to connect to backend. Make sure the server is running on port 3000.');
     } finally {
       setSeeding(false);
     }
