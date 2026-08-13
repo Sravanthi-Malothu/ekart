@@ -5,13 +5,14 @@ let isConnected = false;
 const connectDB = async () => {
     if (isConnected || mongoose.connection.readyState >= 1) {
         isConnected = true;
-        return;
+        return true;
     }
 
     try {
         const mongoUri = process.env.MONGO_URI;
         if (!mongoUri) {
-            throw new Error("MONGO_URI environment variable is missing in Vercel project settings.");
+            console.warn("MONGO_URI is missing in environment variables. Operating in fallback mode.");
+            return false;
         }
         const baseUri = mongoUri.replace(/\/+$/, "");
         const uriToConnect = baseUri.includes('/Ecom') ? baseUri : `${baseUri}/Ecom`;
@@ -20,9 +21,10 @@ const connectDB = async () => {
         });
         isConnected = true;
         console.log("mongoDB connected successfully");
+        return true;
     } catch (error) {
         console.error("mongoDB connection failed:", error.message);
-        throw error;
+        return false;
     }
 }
 

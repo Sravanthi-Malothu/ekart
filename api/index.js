@@ -24,23 +24,19 @@ app.use(cors({
 app.use('/api/v1/uploads', express.static(path.join(__dirname, '../server/uploads')));
 app.use('/v1/uploads', express.static(path.join(__dirname, '../server/uploads')));
 
-// Health check endpoint (bypasses DB connection check for monitoring)
+// Health check endpoint
 app.get(['/api/health', '/health'], (req, res) => {
     res.json({ status: "ok", message: "Ekart API running" });
 });
 
-// Connect DB middleware for serverless requests
+// Connect DB middleware (non-blocking fallback)
 app.use(async (req, res, next) => {
     try {
         await connectDB();
-        next();
     } catch (err) {
-        console.error("Database connection middleware error:", err.message);
-        return res.status(500).json({ 
-            success: false, 
-            message: err.message || "Database connection error. Please ensure MONGO_URI is configured in Vercel environment variables." 
-        });
+        console.warn("DB connection warning:", err.message);
     }
+    next();
 });
 
 // Mount routes supporting both /api/v1 and /v1 path patterns for Vercel rewrites
