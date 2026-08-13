@@ -39,7 +39,8 @@ const Home = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
       setLoading(false);
-      setError('Failed to connect to backend. Make sure the server is running on port 3000.');
+      const errMsg = error.response?.data?.message || error.message || 'Failed to connect to backend server.';
+      setError(errMsg);
     }
   };
 
@@ -60,9 +61,10 @@ const Home = () => {
       const { data } = await axios.get(`${API_URL}/products`);
       setProducts(data.slice(0, 8));
       toast.success('Products seeded!');
-    } catch {
+    } catch (error) {
       toast.error('Failed to seed products');
-      setError('Failed to connect to backend. Make sure the server is running on port 3000.');
+      const errMsg = error.response?.data?.message || error.message || 'Failed to connect to backend server.';
+      setError(errMsg);
     } finally {
       setSeeding(false);
     }

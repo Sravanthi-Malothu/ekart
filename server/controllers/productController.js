@@ -9,7 +9,19 @@ export const getProducts = async (req, res) => {
   try {
     const { category } = req.query;
     const query = category ? { category } : {};
-    const products = await Product.find(query);
+    let products = await Product.find(query);
+
+    // Auto-seed if database is empty and no specific category filter is requested
+    if (products.length === 0 && !category) {
+      try {
+        console.log("No products found in database. Auto-seeding initial products...");
+        products = await Product.insertMany(DEFAULT_SEED_PRODUCTS);
+      } catch (seedErr) {
+        console.error("Auto-seed on getProducts error:", seedErr.message);
+        products = DEFAULT_SEED_PRODUCTS;
+      }
+    }
+
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });
