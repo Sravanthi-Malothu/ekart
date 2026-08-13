@@ -61,7 +61,7 @@ const Cart = () => {
                       <CardTitle className="text-lg truncate">{item.name}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                      <p className="text-pink-600 font-bold text-lg">${item.price}</p>
+                      <p className="text-pink-600 font-bold text-lg">₹{item.price?.toLocaleString('en-IN')}</p>
                       <p className="text-sm text-gray-500">
                         {item.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                       </p>
@@ -89,16 +89,16 @@ const Cart = () => {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
-                    <span>{total > 50 ? 'Free' : '$5.00'}</span>
+                    <span>{total > 500 ? 'Free' : '₹50.00'}</span>
                   </div>
                   <div className="border-t pt-4">
                     <div className="flex justify-between text-xl font-bold text-gray-800">
                       <span>Total</span>
-                      <span>${(total > 50 ? total : total + 5).toFixed(2)}</span>
+                      <span>₹{(total > 500 ? total : total + 50).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </div>
                   </div>
                 </CardContent>

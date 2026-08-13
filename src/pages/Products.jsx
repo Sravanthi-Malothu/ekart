@@ -144,7 +144,7 @@ const Products = () => {
                     <h3 className="text-lg font-semibold text-gray-800 truncate mb-1">{product.name}</h3>
                     <p className="text-sm text-gray-500 mb-2">{product.brand}</p>
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-xl font-bold text-pink-600">${product.price}</span>
+                      <span className="text-xl font-bold text-pink-600">₹{product.price?.toLocaleString('en-IN')}</span>
                       <span className="text-sm text-gray-500">{product.rating} ★ ({product.numReviews})</span>
                     </div>
                     <Button

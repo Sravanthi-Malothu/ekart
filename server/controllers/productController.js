@@ -73,7 +73,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: 'Immersive sound with active noise cancellation and 30-hour battery life.',
     brand: 'Ekart Sound',
     category: 'Electronics',
-    price: 199,
+    price: 1999,
     countInStock: 25,
     rating: 4.8,
     numReviews: 124,
@@ -84,7 +84,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: 'Elegant analogue watch with a genuine leather strap and water resistance.',
     brand: 'Ekart Luxury',
     category: 'Watches',
-    price: 149,
+    price: 1499,
     countInStock: 15,
     rating: 4.6,
     numReviews: 88,
@@ -95,7 +95,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: 'Lightweight, breathable sports shoes designed for maximum comfort and durability.',
     brand: 'Ekart Sport',
     category: 'Shoes',
-    price: 89,
+    price: 2499,
     countInStock: 40,
     rating: 4.7,
     numReviews: 210,
@@ -106,7 +106,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: 'Water-resistant laptop backpack with dedicated compartments and USB charging port.',
     brand: 'Ekart Travel',
     category: 'Bags',
-    price: 69,
+    price: 1299,
     countInStock: 30,
     rating: 4.5,
     numReviews: 95,
@@ -117,7 +117,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: '100% organic cotton crew-neck t-shirt with tailored fit.',
     brand: 'Ekart Apparel',
     category: 'T-Shirts',
-    price: 29,
+    price: 499,
     countInStock: 50,
     rating: 4.4,
     numReviews: 67,
@@ -128,7 +128,7 @@ const DEFAULT_SEED_PRODUCTS = [
     description: 'Captivating fragrance with notes of cedarwood, amber, and fresh citrus.',
     brand: 'Ekart Beauty',
     category: 'Perfumes',
-    price: 110,
+    price: 1899,
     countInStock: 20,
     rating: 4.9,
     numReviews: 142,
@@ -149,7 +149,7 @@ export const seedProducts = async (req, res) => {
     if (files.length > 0) {
       productsToInsert = files.map((filename) => {
         const category = getCategoryFromFilename(filename);
-        const price = Math.floor(Math.random() * 900) + 10;
+        const price = Math.floor(Math.random() * 4500) + 499;
         return {
           name: `${category} - ${filename.split('.')[0]}`,
           image: `/api/v1/uploads/${filename}`,
