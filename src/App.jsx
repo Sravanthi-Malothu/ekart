@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Products from './pages/Products';
+import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import { Toaster } from '@/components/ui/sonner';
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/products',
     element: <Products />
+  },
+  {
+    path: '/products/:id',
+    element: <ProductDetails />
   },
   {
     path: '/cart',

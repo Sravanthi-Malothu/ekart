@@ -12,9 +12,8 @@ const Hero = () => {
                         <h1 className='text-4xl md:text-6xl font-bold mb-4'>Latest Electronics and all other products at Best Prices</h1>
                         <p className='text-xl mb-6 text-blue-100'>Discover cutting-edge unbeatable deals on laptops and more..</p>
                         <div className='flex flex-col sm:flex-row gap-4'>
-                            <Link to='/products'><Button className='bg-white text-blue-600 hover:bg-gray-100'>Shop Now</Button></Link>
-                            <Button className='bg-white text-blue-600 hover:bg-gray-100'>View Details</Button>
-
+                            <Link to='/products'><Button className='bg-white text-blue-600 hover:bg-gray-100 cursor-pointer font-semibold'>Shop Now</Button></Link>
+                            <Link to='/products'><Button className='bg-white text-blue-600 hover:bg-gray-100 cursor-pointer font-semibold'>View Details</Button></Link>
                         </div>
                     </div>
                     <div className='relative'>

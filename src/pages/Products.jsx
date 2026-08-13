@@ -132,28 +132,41 @@ const Products = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredProducts.map((product) => (
-                <div key={product._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="h-48 overflow-hidden bg-gray-200">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-800 truncate mb-1">{product.name}</h3>
-                    <p className="text-sm text-gray-500 mb-2">{product.brand}</p>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-xl font-bold text-pink-600">₹{product.price?.toLocaleString('en-IN')}</span>
-                      <span className="text-sm text-gray-500">{product.rating} ★ ({product.numReviews})</span>
+                <div key={product._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between border border-gray-100">
+                  <Link to={`/products/${product._id}`}>
+                    <div className="h-48 overflow-hidden bg-gray-100 cursor-pointer">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                    <Button
-                      onClick={() => handleAddToCart(product)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                      disabled={product.countInStock === 0}
-                    >
-                      {product.countInStock > 0 ? 'Add to Cart' : 'Out of Stock'}
-                    </Button>
+                  </Link>
+                  <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                      <Link to={`/products/${product._id}`}>
+                        <h3 className="text-lg font-semibold text-gray-800 truncate mb-1 hover:text-pink-600 transition-colors">{product.name}</h3>
+                      </Link>
+                      <p className="text-sm text-gray-500 mb-2">{product.brand}</p>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-xl font-bold text-pink-600">₹{product.price?.toLocaleString('en-IN')}</span>
+                        <span className="text-sm text-gray-500">{product.rating} ★ ({product.numReviews})</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mt-auto">
+                      <Link to={`/products/${product._id}`}>
+                        <Button variant="outline" className="w-full text-xs h-9 border-gray-300 hover:bg-gray-100 cursor-pointer">
+                          View Details
+                        </Button>
+                      </Link>
+                      <Button
+                        onClick={() => handleAddToCart(product)}
+                        className="w-full bg-pink-600 hover:bg-pink-700 text-white text-xs h-9 cursor-pointer"
+                        disabled={product.countInStock === 0}
+                      >
+                        {product.countInStock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
