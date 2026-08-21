@@ -1,51 +1,45 @@
-import { Headphones, Shield, Truck } from "lucide-react";
 import React from "react";
+import { ShieldCheck, Truck, RotateCcw, Award } from "lucide-react";
 
 const Features = () => {
   return (
-    <section className="py-12 bg-muted/50">
+    <section className="py-8 bg-white border-y border-gray-200">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Free Shipping */}
-          <div className="flex items-center space-x-4">
-            <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <Truck className="h-6 w-6 text-blue-600" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {/* Flipkart Assured */}
+          <div className="flex flex-col items-center p-3 rounded-lg hover:bg-blue-50 transition-colors">
+            <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+              <Award className="h-6 w-6 text-[#2874f0]" />
             </div>
+            <h3 className="font-bold text-gray-800 text-sm md:text-base">Ekart Assured</h3>
+            <p className="text-xs text-gray-500 mt-1">100% Original & Verified Products</p>
+          </div>
 
-            <div>
-              <h3 className="font-semibold">Free Shipping</h3>
-              <p className="text-muted-foreground">
-                On orders over $50
-              </p>
+          {/* Free Shipping */}
+          <div className="flex flex-col items-center p-3 rounded-lg hover:bg-blue-50 transition-colors">
+            <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+              <Truck className="h-6 w-6 text-[#2874f0]" />
             </div>
+            <h3 className="font-bold text-gray-800 text-sm md:text-base">Express Delivery</h3>
+            <p className="text-xs text-gray-500 mt-1">Fast & Reliable Doorstep Shipping</p>
+          </div>
+
+          {/* Easy Returns */}
+          <div className="flex flex-col items-center p-3 rounded-lg hover:bg-blue-50 transition-colors">
+            <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+              <RotateCcw className="h-6 w-6 text-[#2874f0]" />
+            </div>
+            <h3 className="font-bold text-gray-800 text-sm md:text-base">7-Day Replacement</h3>
+            <p className="text-xs text-gray-500 mt-1">Hassle-free Instant Returns</p>
           </div>
 
           {/* Secure Payment */}
-          <div className="flex items-center space-x-4">
-            <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
-              <Shield className="h-6 w-6 text-green-600" />
+          <div className="flex flex-col items-center p-3 rounded-lg hover:bg-blue-50 transition-colors">
+            <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+              <ShieldCheck className="h-6 w-6 text-[#2874f0]" />
             </div>
-
-            <div>
-              <h3 className="font-semibold">Secure Payment</h3>
-              <p className="text-muted-foreground">
-                100% secure transactions
-              </p>
-            </div>
-          </div>
-
-          {/* 24/7 Support */}
-          <div className="flex items-center space-x-4">
-            <div className="h-12 w-12 bg-purple-100 rounded-full flex items-center justify-center">
-              <Headphones className="h-6 w-6 text-purple-600" />
-            </div>
-
-            <div>
-              <h3 className="font-semibold">24/7 Support</h3>
-              <p className="text-muted-foreground">
-                Dedicated customer support
-              </p>
-            </div>
+            <h3 className="font-bold text-gray-800 text-sm md:text-base">Secure Payments</h3>
+            <p className="text-xs text-gray-500 mt-1">UPI, Cards, EMI & COD Available</p>
           </div>
         </div>
       </div>
